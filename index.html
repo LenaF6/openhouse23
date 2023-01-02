@@ -21,46 +21,25 @@
     </div> </div>
     <script>
 
-      // update canvas size
-      var refreshCanvas = function(){
-        var newWidth = $( ".webgl-content" ).width();
-        var newHeight = (9/16) * newWidth;
-
-        // Update canvas to inner window width
-        $("#unity-canvas").width(window.innerWidth || newWidth);
-        $("#unity-canvas").height(window.innerHeight - 65 || newHeight);
-      };
-
-      // scale canvas correctly once on start
-      $(function() {
-        refreshCanvas();
-      });
       // start unity
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/221230_3.loader.js";
+      var loaderUrl = buildUrl + "/230102.loader.js";
       var config = {
-        dataUrl: buildUrl + "/221230_3.data.unityweb",
-        frameworkUrl: buildUrl + "/221230_3.framework.js.unityweb",
-        codeUrl: buildUrl + "/221230_3.wasm.unityweb",
+        dataUrl: buildUrl + "/230102.data.unityweb",
+        frameworkUrl: buildUrl + "/230102.framework.js.unityweb",
+        codeUrl: buildUrl + "/230102.wasm.unityweb",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "HGK_openhouse",
         productVersion: "0.1",
       };
 
-      var container = document.querySelector("#unity-container");
-      var canvas = document.querySelector("#unity-canvas");
+      //var container = document.querySelector("#unity-container");
+var canvas = document.querySelector("#unity-canvas");
       var loadingBar = document.querySelector("#unity-loading-bar");
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
 
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        container.className = "unity-mobile";
-        config.devicePixelRatio = 1;
-      } else {
-        canvas.style.width = "960px";
-        canvas.style.height = "600px";
-      }
       loadingBar.style.display = "block";
 
       var script = document.createElement("script");
@@ -77,7 +56,26 @@
       document.body.appendChild(script);
 
       // update on resize
-      $( window ).resize(function() {
+      $(window).resize(async function() {
+        await refreshCanvas();
+      });
+      // scale canvas correctly once on start
+
+      // update canvas size functions
+      const refreshCanvas = function(){
+        var isMobile = window.matchMedia("(max-width: 520px)").matches
+        var newWidth = isMobile ? window.innerHeight : window.innerWidth;
+        var newHeight = isMobile ? window.innerWidth : window.innerHeight;
+        $("#unity-canvas").width(newWidth);
+        $("#unity-canvas").height(newHeight);
+
+        // if (isMobile) {
+        //     document.querySelector('.wrapper-rotate"').style.transform = 'rotate(90deg)'
+        // } else {
+        //     document.querySelector('.wrapper-rotate"').style.transform = 'rotate(0)'
+        // }
+      };
+      $(function() {
         refreshCanvas();
       });
       
