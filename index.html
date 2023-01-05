@@ -55,29 +55,33 @@ var canvas = document.querySelector("#unity-canvas");
       };
       document.body.appendChild(script);
 
-      // update on resize
-      $(window).resize(async function() {
-        await refreshCanvas();
-      });
+// update on resize
       // scale canvas correctly once on start
+
+      /* addEventListener("resize", async () => {
+        await refreshCanvas();
+      }); */
+
+      /* addEventListener("orientationchange", async () => {
+        // await refreshCanvas();
+      }); */
 
       // update canvas size functions
       const refreshCanvas = function(){
-        var isMobile = window.matchMedia("(max-width: 520px)").matches
-        var newWidth = isMobile ? window.innerHeight : window.innerWidth;
-        var newHeight = isMobile ? window.innerWidth : window.innerHeight;
-        $("#unity-canvas").width(newWidth);
-        $("#unity-canvas").height(newHeight);
+        const isMobile = window.matchMedia("(max-width: 520px)").matches;
+        const newWidth = isMobile ? window.innerHeight : window.innerWidth;
+        const newHeight = isMobile ? window.innerWidth : window.innerHeight;
+        document.body.querySelector("#unity-canvas").style.width = newWidth + 'px';
+        document.body.querySelector("#unity-canvas").style.height = newHeight + 'px';
 
-        // if (isMobile) {
-        //     document.querySelector('.wrapper-rotate"').style.transform = 'rotate(90deg)'
-        // } else {
-        //     document.querySelector('.wrapper-rotate"').style.transform = 'rotate(0)'
-        // }
+        /* if (isMobile) {
+          document.querySelector('.wrapper-rotate').style.transform = 'rotate(90deg)'
+         } else {
+          document.querySelector('.wrapper-rotate').style.transform = 'rotate(0)'
+         } */
       };
-      $(function() {
-        refreshCanvas();
-      });
+
+      window.dispatchEvent(new Event(refreshCanvas));
       
     </script>
   </body>
